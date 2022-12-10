@@ -2,27 +2,27 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Serie;
+use App\Models\Movie;
 use Exception;
 use Elastic\Elasticsearch\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
-class IndexSeries extends Command
+class IndexMovies extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'elasticsearch:index_series';
+    protected $signature = 'elasticsearch:index_movies';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Index all the series to Elastic';
+    protected $description = 'Index all the movies to Elastic';
 
     /**
      * @var \Elastic\Elasticsearch\Client
@@ -44,23 +44,23 @@ class IndexSeries extends Command
      */
     public function handle()
     {
-        $series = Serie::all();
+        $movies = Movie::all();
 
-        $bar = $this->output->createProgressBar(count($series));
+        $bar = $this->output->createProgressBar(count($movies));
 
         // Delete the entire index first. @todo - delta indices?
-        $deleteRequest = Http::delete('localhost:9200/' . $series[0]->getTable());
+        $deleteRequest = Http::delete('localhost:9200/' . $movies[0]->getTable());
 
         $this->info("The index was emptied");
 
         $this->newLine();
 
-        foreach ($series as $serie) {
+        foreach ($movies as $movie) {
             try {
                 $this->elasticsearch->index([
-                    'id' => $serie->getKey(),
-                    'index' => $serie->getTable(),
-                    'body' => $serie->toArray()
+                    'id' => $movie->getKey(),
+                    'index' => $movie->getTable(),
+                    'body' => $movie->toArray()
                 ]);
                 // $this->output->write('.');
                 $bar->advance();
@@ -73,6 +73,6 @@ class IndexSeries extends Command
 
         $this->newLine();
 
-        $this->info("Series were successfully indexed");
+        $this->info("Movies were successfully indexed");
     }
 }

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SerieDetails extends Model
+class Season extends Model
 {
     use HasFactory;
 
@@ -15,20 +15,29 @@ class SerieDetails extends Model
      * @var string[]
      */
     protected $fillable = [
-        'adult',
-        'first_air_date',
-        'last_air_date',
-        'original_language',
-        'status',
+        'serie_id',
+        'name',
         'overview',
-        'tagline'
+        'poster_path',
+        'air_date',
+        'episode_count',
+        'season_number',
+        'tmdb_id',
     ];
 
     /**
-     * Get the user that owns the phone.
+     * Get the series that belongs to the season.
      */
     public function serie()
     {
         return $this->belongsTo(Serie::class);
+    }
+
+    /**
+     * Get the episodes associated with the season.
+     */
+    public function episodes()
+    {
+        return $this->hasMany(Episode::class);
     }
 }

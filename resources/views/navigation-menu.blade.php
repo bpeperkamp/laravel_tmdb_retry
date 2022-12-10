@@ -15,8 +15,11 @@
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('series.index') }}" :active="request()->routeIs('series.index')">
+                    <x-jet-nav-link href="{{ route('series.watchlist') }}" :active="request()->routeIs('series.*')">
                         {{ __('Series') }}
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('movies.index') }}" :active="request()->routeIs('movies.*')">
+                        {{ __('Movies') }}
                     </x-jet-nav-link>
                 </div>
             </div>

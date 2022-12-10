@@ -2,25 +2,25 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Serie;
+use App\Models\Movie;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Console\Command;
 
-class ReadSeriesFile extends Command
+class ReadMoviesFile extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'series:import';
+    protected $signature = 'movies:import';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Read series from file and import to database';
+    protected $description = 'Read movies from file and import to database';
 
     /**
      * Create a new command instance.
@@ -61,7 +61,7 @@ class ReadSeriesFile extends Command
      */
     public function handle()
     {
-        $filename = 'tv_series_ids_' . now()->format('m_d_Y') . '.json';
+        $filename = 'movie_ids_' . now()->format('m_d_Y') . '.json';
 
         $fileExists = Storage::disk('local')->exists('tmdb_zipped/' . $filename);
 
@@ -76,12 +76,13 @@ class ReadSeriesFile extends Command
                 $bar->advance();
 
                 if (isset($data->id)) {
-                    $serie = Serie::updateOrCreate(
+                    Movie::updateOrCreate(
                         [
                             'tmdb_id' => $data->id
                         ], [
-                            'title' => $data->original_name,
-                            'rating' => $data->popularity
+                            'title' => $data->original_title,
+                            'rating' => $data->popularity,
+                            'adult' => $data->adult
                         ]
                     );
                 }

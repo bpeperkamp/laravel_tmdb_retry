@@ -28,4 +28,25 @@ class Serie extends Model
     {
         return $this->hasOne(SerieDetails::class);
     }
+
+    /**
+     * Get the seasons associated with the serie.
+     */
+    public function seasons()
+    {
+        return $this->hasMany(Season::class);
+    }
+
+    /**
+     * Get the final season associated with the serie.
+     */
+    public function getLastSeason()
+    {
+        return $this->seasons->last();
+    }
+
+    public function episodes()
+    {
+        return $this->hasManyThrough(Episode::class, Season::class);
+    }
 }

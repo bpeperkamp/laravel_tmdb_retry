@@ -20,13 +20,13 @@ class SearchBox extends Component
 
     public function autocomplete(string $query = '')
     {
-        $model = new Serie();
+        $serie = new Serie();
 
         $client = \Elastic\Elasticsearch\ClientBuilder::create()->build();
 
         $test = $client->search([
-            'index' => $model->getSearchIndex(),
-            'type' => $model->getSearchType(),
+            'index' => $serie->getSearchIndex(),
+            'type' => $serie->getSearchType(),
             'body' => [
                 'query' => [
                     'fuzzy' => [
@@ -80,14 +80,16 @@ class SearchBox extends Component
             ],
         ]);
 
-        // Create overlay on top of regular application
-        if($query) {
-            $this->dispatchBrowserEvent('showBackground', ['value' => true]);
-        } else {
-            $this->dispatchBrowserEvent('showBackground', ['value' => false]);
-        }
-
         $items = !empty($items['hits']['hits']) ? $items['hits']['hits'] : null;
+
+        // Create overlay on top of regular application
+        if($items) {
+            $this->dispatchBrowserEvent('tableVisible', ['value' => true]);
+            $this->dispatchBrowserEvent('searchItems', ['items' => $items]);
+        } else {
+            $this->dispatchBrowserEvent('tableVisible', ['value' => false]);
+            $this->dispatchBrowserEvent('searchItems', ['items' => false]);
+        }
 
         return $items;
     }
