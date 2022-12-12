@@ -56,8 +56,9 @@ class SearchBox extends Component
         $client = \Elastic\Elasticsearch\ClientBuilder::create()->build();
 
         $items = $client->search([
-            'index' => $model->getTable(),
-            'type' => $model->getTable(),
+//            'index' => $model->getTable(),
+//            'type' => $model->getTable(),
+            'index' => '_all',
             'default_operator' => 'OR',
             'q' => '' . $query . '',
             'body' => [

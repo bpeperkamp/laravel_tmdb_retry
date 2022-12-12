@@ -14,16 +14,16 @@
                         <div class="pl-2 mb-4">
                             @if(isset($item['highlight']))
                                 @if(isset($item['highlight']['title']) && !isset($item['highlight']['content']))
-                                    <h4 class="text-sm text-gray-900"><a href="{{ route('series.show', [$item['_source']['id']]) }}">{!! $item['highlight']['title'][0] !!}</a></h4>
+                                    <h4 class="text-sm text-gray-900">{{ ucfirst($item['_index'] . ': ') }}<a href="{{ route($item['_index'] . '.show', [$item['_source']['id']]) }}">{!! $item['highlight']['title'][0] !!}</a></h4>
                                 @elseif(isset($item['highlight']['title']) && isset($item['highlight']['content']))
-                                    <h4 class="text-sm text-gray-900"><a href="{{ route('series.show', [$item['_source']['id']]) }}">{!! $item['highlight']['title'][0] !!}</a></h4>
+                                    <h4 class="text-sm text-gray-900">{{ ucfirst($item['_index'] . ': ') }}{{ ucfirst($item['_index'] . ': ') }}<a href="{{ route($item['_index'] . '.show', [$item['_source']['id']]) }}">{!! $item['highlight']['title'][0] !!}</a></h4>
                                     <p class="text-gray-500">{!! $item['highlight']['content'][0] !!}</p>
                                 @elseif(!isset($item['highlight']['title']) && isset($item['highlight']['content']))
-                                    <h4 class="text-sm text-gray-900"><a href="{{ route('series.show', [$item['_source']['id']]) }}">{{ $item['_source']['title'] }}</a></h4>
+                                    <h4 class="text-sm text-gray-900">{{ ucfirst($item['_index'] . ': ') }}<a href="{{ route($item['_index'] . '.show', [$item['_source']['id']]) }}">{{ $item['_source']['title'] }}</a></h4>
                                     <p class="text-gray-500">{!! $item['highlight']['content'][0] !!}</p>
                                 @endif
                             @else
-                                <h4><a href="{{ route('series.show', [$item['_source']['id']]) }}">{{ $item['_source']['title'] }}</a></h4>
+                                <h4>{{ ucfirst($item['_index'] . ': ') }}<a href="{{ route($item['_index'] . '.show', [$item['_source']['id']]) }}">{{ $item['_source']['title'] }}</a></h4>
                             @endif
                         </div>
                     @endforeach

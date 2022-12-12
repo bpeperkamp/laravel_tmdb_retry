@@ -3,6 +3,7 @@
 use App\Http\Controllers\SeriesController;
 use App\Http\Controllers\MoviesController;
 use App\Http\Controllers\SeasonController;
+use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
 
 /*
